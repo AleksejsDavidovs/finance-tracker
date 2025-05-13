@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Finanšu trekeris</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Finanšu trekeris</h1>
+    <h2>Pievienot jaunu ierakstu</h2>
+    
+    <form action="/add" method="post">
+        <select name="tips" class="input">
+            <option value="Ienākumi">Ienākumi</option>
+            <option value="Izdevumi">Izdevumi</option>
+        </select>
+        <input type="text" name="kategorija" placeholder="Kategorija" class="input" required>
+        <input type="number" step="0.01" name="summa" placeholder="Summa" class="input" required>
+        <button type="submit">Pievienot</button>
+    </form>
+
+    <h2>Kopsavilkums</h2>
+    <p>Ienākumi: {{ ienakumi }} EUR</p>
+    <p>Izdevumi: {{ izdevumi }} EUR</p>
+    <p><strong style="color: green;">Balanss: {{ balanss }} EUR</strong></p>
+
+    <h2>Visi ieraksti</h2>
+    {% for ieraksts in ieraksti %}
+        <div class="entry">
+            <p>{{ ieraksts['datums'] }} - {{ ieraksts['tips'] }} - {{ ieraksts['kategorija'] }} - {{ ieraksts['summa'] }} EUR</p>
+            <form action="/delete/{{ loop.index0 }}" method="post" style="display:inline;">
+                <button type="submit">Dzēst</button>
+            </form>
+        </div>
+    {% endfor %}
+</body>
+</html>
